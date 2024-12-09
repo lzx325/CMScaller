@@ -98,5 +98,8 @@ CMScaller <- function(emat, templates=CMScaller::templates.CMS,
     if (nPerm > 500) if (min(res$FDR) > .1)
         warning("low-confidence predictions - check input",call.=FALSE)
 
-    return(res)
+    return(list(
+        res=res,
+        emat=emat
+    ))
 }

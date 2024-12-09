@@ -281,7 +281,9 @@ ntp <- function(emat, templates, nPerm = 1000, distance = "cosine",
     res$FDR <- stats::p.adjust(res$p.value, "fdr")
 
     # visualize ###############################################################
+    
     if (isTRUE(doPlot)) {
+        
         subHeatmap(emat = emat, res = res, templates = templates)
     }
 

@@ -28,6 +28,7 @@ subHeatmap <- function(emat, res, templates, keepN = TRUE,
     # prepareInput ############################################################
 
     emat <- emat[,keepN];res <- res[keepN,]
+
     class <- res$prediction
     K <- nlevels(class)
 
@@ -43,9 +44,10 @@ subHeatmap <- function(emat, res, templates, keepN = TRUE,
 
     # prepare res
     isDist <- grepl("^d\\.", colnames(res))
-    res$prediction <- factor(levels(res$prediction)
-                            [apply(res[,isDist], 1, which.min)])
 
+    # res$prediction <- factor(levels(res$prediction)
+    #                         [apply(res[,isDist], 1, which.min)])
+    
     if (K == 2) {
         isClass2 <- res$prediction == levels(class)[2]
         res$p.value[isClass2] <- -res$p.value[isClass2]
@@ -55,9 +57,11 @@ subHeatmap <- function(emat, res, templates, keepN = TRUE,
     N <- order(res$prediction, res$p.value)
     P <- intersect(rownames(emat), rownames(templates))
 
+
     templates <- templates[P,]
     templates <- templates[order(templates$class),]
     emat <- ematAdjust(emat[rownames(templates),N])
+
 
     # colorBars ###############################################################
 
@@ -74,7 +78,6 @@ subHeatmap <- function(emat, res, templates, keepN = TRUE,
     # makeHeatmap #############################################################
     xx <- seq(0, 1, length.out=ncol(emat)+1)
     yy <- seq(0, 1, length.out=nrow(emat)+1)
-
     graphics::image(x = xx, y = yy, z = t(emat),
                 yaxt="n", xaxt="n",useRaster=TRUE,
                 col = heatCol, breaks = breaks,
